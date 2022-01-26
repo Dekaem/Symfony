@@ -3,16 +3,25 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.lastname) }}
-        {{ form_row(registrationForm.phone) }}
-        {{ form_row(registrationForm.association) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+        <div class="card" style="width: 40rem;">
+            <div class="card-body">
+                <h1 class="card-title">Register</h1>
+                <p class="card-text">
+                    {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.firstname) }}
+                        {{ form_row(registrationForm.lastname) }}
+                        {{ form_row(registrationForm.phone) }}
+                        {{ form_row(registrationForm.association) }}
+                        {{ form_row(registrationForm.email) }}
+                        {{ form_row(registrationForm.plainPassword) }}
+                        {{ form_row(registrationForm.agreeTerms) }}
+                        {{ form_row(registrationForm.register) }}
+                    {{ form_end(registrationForm) }}
+                </p>
+            </div>
+        </div>
+    </div>
 
-    {{ form_end(registrationForm) }}
 {% endblock %}

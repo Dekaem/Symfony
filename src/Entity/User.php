@@ -4,11 +4,13 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -35,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $phone;
 
@@ -86,7 +88,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getLastname(): ?string
     {
-        return $this->name;
+        return $this->lastname;
     }
 
     public function setLastname(string $lastname): self
@@ -98,7 +100,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getPhone(): ?string
     {
-        return $this->name;
+        return $this->phone;
     }
 
     public function setPhone(string $phone): self

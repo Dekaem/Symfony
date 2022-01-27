@@ -55,4 +55,9 @@ class Association
 
         return $this;
     }
+
+    // Register Magic Method to Print the name of the Association
+    public function __toString() {
+        return $this->name;
+    }
 }

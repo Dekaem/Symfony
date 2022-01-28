@@ -1,4 +1,14 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.firstname) }}
+    {{ form_row(form.lastname) }}
+    {{ form_row(form.association) }}
+    {{ form_row(form.phone) }}
+    {{ form_row(form.email) }}
+    {{ form_label(form.password) }}
+
+    <div class="mb-3">
+        <a href="{{ path('user_edit_password', {'id': user.id}) }}">Changer le Mot de Passe</a>
+    </div>
+    
     <button class="btn">{{ button_label|default('Valider') }}</button>
-{{ form_end(form) }}
+{{ form_end(form, {'render_rest': false}) }}

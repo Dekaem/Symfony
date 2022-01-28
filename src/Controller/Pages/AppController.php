@@ -50,7 +50,7 @@ class AppController extends AbstractController
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
         }
         
-        return $this->render('user/new_password.html.twig', [
+        return $this->render('dashboard/user/new_password.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier mot de passe User{% endblock %}
+{% block title %}Modifier MDP n°{{ user.id }}{% endblock %}
 
 {% block body %}
-    <h1>Modifier mot de passe User</h1>
+    <h1>Modifier mot de passe | {{ user.firstname }} {{ user.lastname }}</h1>
 
 {{ form_start(form) }}
     {{ form_row(form.password) }}

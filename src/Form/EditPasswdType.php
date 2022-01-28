@@ -20,7 +20,7 @@ class EditPasswdType extends AbstractType
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
                 'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Resaisir mot de passe'],
+                'second_options' => ['label' => 'Ressaisir mot de passe'],
             ]);
     }
 

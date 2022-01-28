@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier User{% endblock %}
+{% block title %}Modifier User n°{{ user.id }}{% endblock %}
 
 {% block body %}
-    <h1>Modifier User</h1>
+    <h1>Modifier | {{ user.firstname }} {{ user.lastname }}</h1>
 
     {{ include('user/_form.html.twig', {'button_label': 'Confirmer la modification'}) }}
 

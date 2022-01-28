@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}User n°{{ user.id }}{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1>User | {{ user.firstname }} {{ user.lastname }}</h1>
 
     <table class="table">
         <tbody>

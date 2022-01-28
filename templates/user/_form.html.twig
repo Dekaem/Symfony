@@ -6,7 +6,7 @@
     {{ form_row(form.email) }}
 
     <div class="mb-3">
-        <a href="{{ path('user_edit_password', {'id': user.id}) }}">Changer le Mot de Passe</a>
+        <a href="{{ path('user_reset_password', {'id': user.id}) }}">Changer le Mot de Passe</a>
     </div>
     
     <button class="btn">{{ button_label|default('Valider') }}</button>

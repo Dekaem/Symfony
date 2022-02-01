@@ -1,0 +1,17 @@
+.flash-messages {
+    position: fixed;
+    top: 180px;
+    left: 50%;
+    z-index: 100;
+    transform: translateX(-50%);
+    animation: flashReveal 0.4s ease-in-out;
+}
+
+@keyframes flashReveal {
+    0% {
+        top: -100px;
+    }
+    100% {
+        top: 180px;
+    }
+}

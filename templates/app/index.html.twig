@@ -1,20 +1,138 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AppController!{% endblock %}
+{% block title %}Accueil -
+	{{ parent() }}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello ! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/vsail/Desktop/Bluecom/TableRonde/SymfonyProjet/tableronde/src/Controller/AppController.php'|file_link(0) }}">src/Controller/AppController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/vsail/Desktop/Bluecom/TableRonde/SymfonyProjet/tableronde/templates/app/index.html.twig'|file_link(0) }}">templates/app/index.html.twig</a></code></li>
-    </ul>
-</div>
+	<div class="container py-5">
+		<div class="row">
+			<div class="col-12">
+				<h1>H1 - Lorem ipsum sin amet</h1>
+				<h2>H2 - Lorem ipsum sin amet</h2>
+				<h3>H3 - Lorem ipsum sin amet</h3>
+				<h4>H4 - Lorem ipsum sin amet</h4>
+				<h5>H5 - Lorem ipsum sin amet</h5>
+				<h6>H6 - Lorem ipsum sin amet</h6>
+			</div>
+		</div>
+		<hr class="my-5"/>
+		<div class="row">
+			<div class="col-md-6">
+				<h2>Lorem ipsum dolor sit amet consectetur</h2>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Et error impedit ducimus reiciendis? Commodi recusandae voluptatum magni omnis saepe eaque corporis nesciunt ab iste facere. Hic quia ea explicabo numquam.
+				</p>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Et error impedit ducimus reiciendis? Commodi recusandae voluptatum magni omnis saepe eaque corporis nesciunt ab iste facere. Hic quia ea explicabo numquam.
+				</p>
+			</div>
+			<div class="col-md-6">
+				<img class="img-fluid rounded shadow-perso" src="https://picsum.photos/960/540?random=1" alt=""/>
+			</div>
+		</div>
+		<hr class="my-5"/>
+		<div class="row">
+			<div class="col-md-6">
+				<img class="img-fluid rounded shadow-perso" src="https://picsum.photos/960/540?random=2" alt=""/>
+			</div>
+			<div class="col-md-6">
+				<h2>Lorem ipsum dolor sit amet consectetur</h2>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Et error impedit ducimus reiciendis? Commodi recusandae voluptatum magni omnis saepe eaque corporis nesciunt ab iste facere. Hic quia ea explicabo numquam.
+				</p>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Et error impedit ducimus reiciendis? Commodi recusandae voluptatum magni omnis saepe eaque corporis nesciunt ab iste facere. Hic quia ea explicabo numquam.
+				</p>
+			</div>
+		</div>
+		<hr class="my-5"/>
+		<div class="row">
+			<div class="col">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">First</th>
+							<th scope="col">Last</th>
+							<th scope="col">Handle</th>
+							<th class="text-center">Factures</th>
+							<th class="text-center">Montant total</th>
+							<th/>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<td>Mark</td>
+							<td>Otto</td>
+							<td>
+								<a href="">@mdo</a>
+							</td>
+							<td class="text-center">
+								<span class="badge bg-info text-light">12</span>
+							</td>
+							<td class="text-center">5 412,45 €</td>
+							<td>
+								<button class="btn btn-outline-info btn-sm me-2">
+									<i class="fal fa-search"></i>
+								</button>
+								<button class="btn btn-outline-warning btn-sm me-2">
+									<i class="fal fa-pen"></i>
+								</button>
+								<button class="btn btn-outline-danger btn-sm">
+									<i class="fal fa-trash-alt"></i>
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">2</th>
+							<td>Jacob</td>
+							<td>Thornton</td>
+							<td>
+								<a href="">@fat</a>
+							</td>
+							<td class="text-center">
+								<span class="badge bg-info text-light">24</span>
+							</td>
+							<td class="text-center">7 820,35 €</td>
+							<td>
+								<button class="btn btn-outline-info btn-sm me-2">
+									<i class="fal fa-search"></i>
+								</button>
+								<button class="btn btn-outline-warning btn-sm me-2">
+									<i class="fal fa-pen"></i>
+								</button>
+								<button class="btn btn-outline-danger btn-sm">
+									<i class="fal fa-trash-alt"></i>
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">3</th>
+							<td colspan="2">Larry the Bird</td>
+							<td>
+								<a href="">@twitter</a>
+							</td>
+							<td class="text-center">
+								<span class="badge bg-info text-light">6</span>
+							</td>
+							<td class="text-center">3 425,90 €</td>
+							<td>
+								<button class="btn btn-outline-info btn-sm me-2">
+									<i class="fal fa-search"></i>
+								</button>
+								<button class="btn btn-outline-warning btn-sm me-2">
+									<i class="fal fa-pen"></i>
+								</button>
+								<button class="btn btn-outline-danger btn-sm">
+									<i class="fal fa-trash-alt"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 {% endblock %}

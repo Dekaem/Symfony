@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau mot de passe{% endblock %}
+{% block title %}Modifier une association - {{ parent() }}{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col mb-4">
-            <h1>Nouveau mot de passe | {{ user.firstname }} {{ user.lastname }}</h1>
+            <h1>Modifier l'association'</h1>
         </div>
     </div>
 </div>
@@ -15,10 +15,7 @@
         <div class="col">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    {{ form_start(form) }}
-                        {{ form_row(form.password) }}
-                        <button class="btn">{{ button_label|default('Valider') }}</button>
-                    {{ form_end(form) }}
+                    {{ include('dashboard/association/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
                 </div>
             </div>
         </div>
@@ -27,7 +24,7 @@
 <div class="container mt-3">
     <div class="row">
         <div class="col">
-            <a href="{{ path('user_index') }}"><i class="fal fa-long-arrow-left me-1"></i>Retour</a>
+            <a href="{{ path('association_index') }}"><i class="fal fa-long-arrow-left me-1"></i>Retour</a>
         </div>
     </div>
 </div> 

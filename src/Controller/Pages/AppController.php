@@ -25,10 +25,18 @@ class AppController extends AbstractController
         $this->userPasswordHasher = $userPasswordHasher;
     }
 
+    /**
+     * @Route("/", name="home", methods={"GET"})
+     */
+    public function index(): Response
+    {
+        return $this->render('app/index.html.twig');
+    }
+
      /**
      * @Route("/user/{id}/new/password/", name="user_new_password", methods={"GET", "POST"})
      */
-    public function newPassword(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function newPassword(Request $request, User $user): Response
     {
 
         $form = $this->createForm(NewPasswordType::class, $user);
@@ -39,13 +47,13 @@ class AppController extends AbstractController
             //Vérification cohérence des mots de passe
                 // encode the plain password
                 $user->setPassword(
-                $userPasswordHasher->hashPassword(
+                $this->userPasswordHasher->hashPassword(
                         $user,
                         $form->get('password')->getData()
                     )
                 );
-                $entityManager->persist($user);
-                $entityManager->flush();
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
             
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);

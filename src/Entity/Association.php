@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\AssociationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AssociationRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=AssociationRepository::class)
@@ -26,6 +28,21 @@ class Association
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="association")
+     */
+    private $users;
+
+    public function __toString() {
+        return $this->name;
+    }
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -56,8 +73,11 @@ class Association
         return $this;
     }
 
-    // Register Magic Method to Print the name of the Association
-    public function __toString() {
-        return $this->name;
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
     }
 }

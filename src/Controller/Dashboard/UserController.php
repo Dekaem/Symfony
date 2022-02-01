@@ -5,7 +5,6 @@ namespace App\Controller\Dashboard;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\UserEditType;
-use App\Form\EditPasswdType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * @Route("/user")
+ * @Route("/dashboard/user")
  */
 class UserController extends AbstractController
 {

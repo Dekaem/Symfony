@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -56,6 +58,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToOne(targetEntity=Association::class, inversedBy="users")
      */
     private $association;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Participation::class, mappedBy="user")
+     */
+    private $participations;
+
+    public function __construct()
+    {
+        $this->participations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -192,5 +204,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Participation[]
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): self
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations[] = $participation;
+            $participation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): self
+    {
+        if ($this->participations->removeElement($participation)) {
+            // set the owning side to null (unless already changed)
+            if ($participation->getUser() === $this) {
+                $participation->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

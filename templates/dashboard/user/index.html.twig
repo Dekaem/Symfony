@@ -13,9 +13,7 @@
                 <th>Nom</th>
                 <th>Association</th>
                 <th>Téléphone</th>
-                <th>Role</th>
                 <th>Email</th>
-                <th>Mot de passe</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -25,11 +23,9 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
-                <td>{{ user.association.name }}</td>
+                <td>{{ user.association ? user.association.name : "" }}</td>
                 <td>{{ user.phone }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.password }}</td>
                 <td>
                     <a href="{{ path('user_show', {'id': user.id}) }}">Afficher</a>
                     <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>

@@ -1,3 +1,10 @@
-@import "custom";
+// Globals
+@import "globals/_variables.scss";
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
+// Elements
+@import "elements/_flash-messages.scss";
+@import "elements/_shadows.scss";
+
+// Layout
+@import "layout/_main.scss";

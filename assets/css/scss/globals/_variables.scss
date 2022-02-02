@@ -1,0 +1,24 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+// font-family: 'Poppins', sans-serif;
+
+$body-font: 'Poppins', sans-serif;
+$heading-font: $body-font;
+$tagline-font: $body-font;
+$nav-font: $heading-font;
+
+// Color system
+$body-color: #384044;
+$text-grey: #707070;
+$text-highlight: #999;
+$text-light: #fff;
+$border-light: #707070;
+$bground-grey: #EBEBEB;
+$bground-grey-darker: #EFEFEF;
+$dark-shades: #0d0d0d;
+$darker-shades: #0d0d0d;
+$placeholder: rgba(#384044, 0.3);
+
+// Transitions
+$transition: all .3s ease-in-out;

@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+}
+html { 
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+body {
+    margin: 0;
+    // font-family: $body-font;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    overflow: hidden;
+    color: $body-color;
+}
+
+h1,
+h2,
+h3 {
+    // font-family: $heading-font;
+}
+
+p {
+    font-size: 16px;
+    line-height: 27px;
+}
+
+a {
+    text-decoration: none;
+    transition: $transition;
+    &:hover {
+        text-decoration: none;
+        transition: $transition;
+    }
+}
+strong {
+    font-weight: 700;
+}
+
+main {
+    padding: 0;
+}

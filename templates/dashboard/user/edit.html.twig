@@ -1,13 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier User n°{{ user.id }}{% endblock %}
+{% block title %}Modifier l'utilisateur n°{{ user.id }} - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Modifier | {{ user.firstname }} {{ user.lastname }}</h1>
-
-    {{ include('dashboard/user/_form.html.twig', {'button_label': 'Confirmer la modification'}) }}
-
-    <a href="{{ path('user_index') }}">Retour à la liste</a>
-
-    {{ include('dashboard/user/_delete_form.html.twig') }}
+    <div class="container">
+        <div class="row">
+            <div class="col mb-4">
+                <h1>Modifier l'utilisateur : {{ user.firstname }} {{ user.lastname }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {{ include('dashboard/user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col">
+                <a href="{{ path('user_index') }}"><i class="fal fa-long-arrow-left me-1"></i>Retour</a>
+            </div>
+        </div>
+    </div> 
 {% endblock %}

@@ -20,7 +20,7 @@ class NewPasswordType extends AbstractType
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
                 'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Ressaisir mot de passe'],
+                'second_options' => ['label' => 'Confirmer le mot de passe'],
             ]);
     }
 

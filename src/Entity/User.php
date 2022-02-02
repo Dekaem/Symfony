@@ -53,7 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Association::class)
+     * @ORM\ManyToOne(targetEntity=Association::class, inversedBy="users")
      */
     private $association;
 

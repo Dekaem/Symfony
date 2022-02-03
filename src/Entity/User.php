@@ -60,13 +60,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $association;
 
     /**
-     * @ORM\OneToMany(targetEntity=Participation::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=TableRonde::class, mappedBy="user")
      */
-    private $participations;
+    private $tableronde;
 
     public function __construct()
     {
-        $this->participations = new ArrayCollection();
+        $this->tableronde = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -207,29 +207,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|Participation[]
+     * @return Collection|TableRonde[]
      */
-    public function getParticipations(): Collection
+    public function getTableRonde(): Collection
     {
-        return $this->participations;
+        return $this->tableronde;
     }
 
-    public function addParticipation(Participation $participation): self
+    public function addTableRonde(TableRonde $tableronde): self
     {
-        if (!$this->participations->contains($participation)) {
-            $this->participations[] = $participation;
-            $participation->setUser($this);
+        if (!$this->tableronde->contains($tableronde)) {
+            $this->tableronde[] = $tableronde;
+            $tableronde->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeParticipation(Participation $participation): self
+    public function removeTableRonde(TableRonde $tableronde): self
     {
-        if ($this->participations->removeElement($participation)) {
+        if ($this->tableronde->removeElement($tableronde)) {
             // set the owning side to null (unless already changed)
-            if ($participation->getUser() === $this) {
-                $participation->setUser(null);
+            if ($tableronde->getUser() === $this) {
+                $tableronde->setUser(null);
             }
         }
 

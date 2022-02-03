@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ParticipationRepository;
+use App\Repository\TableRondeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ParticipationRepository::class)
+ * @ORM\Entity(repositoryClass=TableRondeRepository::class)
  */
-class Participation
+class TableRonde
 {
     /**
      * @ORM\Id
@@ -20,15 +20,15 @@ class Participation
     /**
      * @ORM\Column(type="integer")
      */
-    private $tour;
+    private $round;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $tables;
+    private $tableNumber;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="participations")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tableronde")
      */
     private $user;
 
@@ -37,26 +37,26 @@ class Participation
         return $this->id;
     }
 
-    public function getTour(): ?int
+    public function getRound(): ?int
     {
-        return $this->tour;
+        return $this->round;
     }
 
-    public function setTour(int $tour): self
+    public function setRound(int $round): self
     {
-        $this->tour = $tour;
+        $this->round = $round;
 
         return $this;
     }
 
-    public function getTables(): ?int
+    public function getTableNumber(): ?int
     {
-        return $this->tables;
+        return $this->tableNumber;
     }
 
-    public function setTables(int $tables): self
+    public function setTableNumber(int $tableNumber): self
     {
-        $this->tables = $tables;
+        $this->tableNumber = $tableNumber;
 
         return $this;
     }

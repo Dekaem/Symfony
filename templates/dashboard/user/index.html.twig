@@ -6,8 +6,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col d-flex justify-content-between mb-4">
-				<h1>Utilisateurs - Liste</h1>
-				<div class="">
+				<h1>Utilisateurs - Liste ({{ users|length }})</h1>
+				<div class="d-flex align-items-center">
 					<a class="btn btn-primary" href="{{ path('user_new') }}">
 						<i class="fal fa-plus"></i>
 					</a>
@@ -22,16 +22,17 @@
 					<div class="card-body">
 						<div class="table-responsive">
 							{% if users|length > 0 %}
-								<table class="table table-bordered">
+								<table id="user-table" class="table table-bordered m-0">
 									<thead>
 										<tr>
 											<th>#</th>
-											<th>Prénom</th>
-											<th>Nom</th>
+											<th>Tour</th>
+											<th>Table</th>
+											<th>Prénom Nom</th>
 											<th>Association</th>
-											<th>Téléphone</th>
+											{# <th>Téléphone</th> #}
 											{# <th>Role</th> #}
-											<th>E-mail</th>
+											{# <th>E-mail</th> #}
 											<th>Actions</th>
 										</tr>
 									</thead>
@@ -39,12 +40,23 @@
 										{% for user in users %}
 											<tr>
 												<td>{{ user.id }}</td>
-												<td>{{ user.firstname }}</td>
-												<td>{{ user.lastname }}</td>
+												<td>
+												{% if user.tableRonde is not null %}
+													{{ user.tableRonde.round}}
+												{% endif %}
+												</td>
+												<td>
+												{% if user.tableRonde is not null %}
+													{{ user.tableRonde.tableNumber}}
+												{% else %}
+													<span class="d-none">1000</span>
+												{% endif %}
+												</td>
+												<td>{{ user.firstname }} {{ user.lastname }}</td>
 												<td>{{ user.association ? user.association.name : "" }}</td>
-												<td>{{ user.phone }}</td>
+												{# <td>{{ user.phone }}</td> #}
 												{# <td>{{ user.roles ? user.roles|json_encode : '' }}</td> #}
-												<td>{{ user.email }}</td>
+												{# <td>{{ user.email }}</td> #}
 												<td>
                                                     <a class="btn btn-outline-success btn-sm" href="{{ path('user_show', {'id': user.id}) }}"><i class="fal fa-eye fa-fw"></i></a>
                                                     <a class="btn btn-outline-warning btn-sm" href="{{ path('user_edit', {'id': user.id}) }}"><i class="fal fa-pen fa-fw"></i></a>
@@ -66,4 +78,83 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		const columnNumeroTable = 2;
+		const columnRound = 1;
+        const tableOrder = [[columnNumeroTable, "asc"],[columnRound, "asc"]];
+    </script>
+	<script>
+		$(document).ready(function () {
+            $('#user-table').DataTable({
+                "order": tableOrder,
+                "pageLength": 500,
+                "language": {
+                    "sEmptyTable": "Aucune donnée disponible dans le tableau",
+                    "sInfo": "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                    "sInfoEmpty": "Affichage de l'élément 0 à 0 sur 0 élément",
+                    "sInfoFiltered": "(filtré à partir de _MAX_ éléments au total)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ",",
+                    "sLengthMenu": "Afficher _MENU_ éléments",
+                    "sLoadingRecords": "Chargement...",
+                    "sProcessing": "Traitement...",
+                    "sSearch": "Rechercher :",
+                    "sZeroRecords": "Aucun élément correspondant trouvé",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sLast": "Dernier",
+                        "sNext": "Suivant",
+                        "sPrevious": "Précédent"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre décroissant"
+                    },
+                    "select": {
+                        "rows": {
+                            "_": "%d lignes sélectionnées",
+                            "0": "Aucune ligne sélectionnée",
+                            "1": "1 ligne sélectionnée"
+                        }
+                    },
+                    "searchPanes": {
+                        "clearMessage": "Effacer tout",
+                        "count": "{total}",
+                        "title": {
+                            _: 'Filtres actifs - %d',
+                            0: 'Aucun filtre actif',
+                            1: '1 filtre actif'
+                        },
+                        "collapse": {
+                            "0": "Volet de recherche",
+                            "_": "Volet de recherche (%d)"
+                        },
+                        "countFiltered": "{shown} ({total})",
+                        "emptyPanes": "Pas de volet de recherche",
+                        "loadMessage": "Chargement du volet de recherche...",
+                        "collapseMessage": "Réduire tout",
+                        "showMessage": "Montrer tout"
+                    }
+                },
+				searchPanes:{
+					
+				},
+                dom: 'Plfrtip',
+				columnDefs: [
+					{
+						searchPanes: {
+							show: true
+						},
+						targets: [columnRound]
+					},
+					{
+						searchPanes: {
+							show: true
+						},
+						targets: [columnNumeroTable]
+					},
+				]
+            });
+        });
+	</script>
 {% endblock %}

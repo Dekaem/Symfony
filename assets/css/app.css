@@ -11329,6 +11329,49 @@ textarea.form-control-lg {
   box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
+.card-table {
+  width: 25%;
+}
+.card-table .list-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding: 0 10px;
+  background: #0d6efd;
+  color: white;
+}
+.card-table .round, .card-table .table-number {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 10px;
+  height: 100%;
+}
+.card-table .round span, .card-table .table-number span {
+  font-size: 20px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+.card-table .round span.chiffre, .card-table .table-number span.chiffre {
+  margin: 0 0 5px 30px;
+  font-weight: 900;
+  font-size: 70px;
+  line-height: 70px;
+  vertical-align: middle;
+  transform: rotate(0deg);
+}
+.card-table .round span.title, .card-table .table-number span.title {
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  width: 70px;
+  text-align: center;
+}
+
 * {
   box-sizing: border-box;
 }

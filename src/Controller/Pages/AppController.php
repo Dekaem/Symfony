@@ -14,15 +14,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class AppController extends AbstractController
 {
     private $entityManager;
-    private $userPasswordHasher;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $userPasswordHasher
+        EntityManagerInterface $entityManager
 
     ) {
         $this->entityManager = $entityManager;
-        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     /**

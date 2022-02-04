@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Distribution des tables -
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col d-flex justify-content-between mb-4">
+				<h1>Distribution des tables</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 mb-4">
+				Nombre de tables :
+				<strong>{{ nbTables }}</strong><br>
+				Nombre de personnes :
+				<strong>{{ nbParticipants }}</strong><br>
+				Reste sur la dernière table :
+				<strong>{{ lastTable }}</strong><br>
+				Nombre de personnes sans table :
+				<strong>{{ participantsNoTable|length }}</strong>
+				<ul>
+					{% for item in participantsNoTable %}
+						<li>{{ item.firstname }}
+							{{ item.lastname }}
+							-
+							{{ item.association }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			{% for tableRonde in tablesRondes %}
+				<div class="card-table col-md-4 mb-4">
+					<ul class="list-group shadow-perso-light border-0">
+						<li class="list-group-item list-group-header">
+							<div class="round">
+								<span class="title">Tour</span>
+								<span class="chiffre">{{ tableRonde.round }}</span>
+							</div>
+							<div class="table-number">
+								<span class="title">Table</span>
+								<span class="chiffre">{{ tableRonde.tableNumber }}</span>
+							</div>
+						</li>
+						{% for participant in tableRonde.users %}
+							<li class="list-group-item">
+								{{ participant }}<br>
+								{{ participant.association }}
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

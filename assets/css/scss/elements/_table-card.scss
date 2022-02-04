@@ -1,0 +1,42 @@
+.card-table {
+    width: 25%;
+    .list-group-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+        padding: 0 10px;
+        background: $primary;
+        color: white;
+    }
+    .round, .table-number  {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 10px;
+        height: 100%;
+        span {
+            font-size: 20px;
+            font-weight: 300;
+            text-transform: uppercase;
+            &.chiffre {
+                margin: 0 0 5px 30px;
+                font-weight: 900;
+                font-size: 70px;
+                line-height: 70px;
+                vertical-align: middle;
+                transform: rotate(0deg);
+            }
+            &.title {
+                position: absolute;
+                left: -20px;
+                top: 50%;
+                transform: translateY(-50%) rotate(-90deg);
+                width: 70px;
+                text-align: center;
+            }
+        }
+    }
+}

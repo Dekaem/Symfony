@@ -7,19 +7,17 @@ use App\Entity\User;
 use App\Entity\Association;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements FixtureGroupInterface
 {
-    /**
-     * L'encodeur de mot de passe
-     * @var UserPasswordEncoderInterface
-     */
-    private $encoder;
+    private $userPasswordHasher;
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
-    {
-        $this->encoder = $encoder;
+    public function __construct(
+        UserPasswordHasherInterface $userPasswordHasher
+    ) {
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     public function load(ObjectManager $manager): void
@@ -29,23 +27,24 @@ class AppFixtures extends Fixture
         // Création de l'utilisateur administrateur
         $user = new User;
 
-        $hash = $this->encoder->encodePassword($user, "Bluecom86");
+        $hash = $this->userPasswordHasher->hashPassword($user, "Bluecom86");
 
         $user->setRoles(["ROLE_ADMIN"]);
         $user->setPassword($hash);
         $user->setEmail('dimbo@blue-com.fr');
-        $user->setFirstname($faker->firstName);
-        $user->setLastname($faker->lastName);
+        $user->setFirstname('David');
+        $user->setLastname('Bluecom');
         $user->setPhone($faker->e164PhoneNumber);
 
         $manager->persist($user);
         $manager->flush();
-        
+
         // Création des associations
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 8; $i++) {
             $association = new Association();
             $association->setName($faker->company);
             $association->setDescription($faker->text);
+            $association->setTotalMembers();
 
             $manager->persist($association);
 
@@ -57,7 +56,7 @@ class AppFixtures extends Fixture
                 $user->setLastname($faker->lastName);
                 $user->setPhone($faker->e164PhoneNumber);
                 $user->setRoles(['ROLE_USER']);
-                $user->setPassword($this->encoder->encodePassword($user, 'password'));
+                $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
                 $user->setAssociation($association);
 
                 $manager->persist($user);
@@ -65,5 +64,10 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public static function getGroups(): array
+    {
+        return ['group1'];
     }
 }

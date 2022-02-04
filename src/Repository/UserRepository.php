@@ -36,6 +36,38 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function findByAssociationNotNull()
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.association IS NOT NULL')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByTableNull()
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.tableRonde IS NULL')
+            ->andWhere('u.association IS NOT NULL')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByTableRonde($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.tableRonde = :val')
+            ->setParameter('val', $value)
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

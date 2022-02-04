@@ -57,6 +57,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $association;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TableRonde::class, inversedBy="users", cascade={"persist"})
+     */
+    private $tableRonde;
+
+    public function __toString()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -192,5 +202,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getTableRonde(): ?TableRonde
+    {
+        return $this->tableRonde;
+    }
+
+    public function setTableRonde(?TableRonde $tableRonde): self
+    {
+        $this->tableRonde = $tableRonde;
+
+        return $this;
     }
 }

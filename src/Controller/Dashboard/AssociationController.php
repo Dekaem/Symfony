@@ -36,6 +36,7 @@ class AssociationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $association->setTotalMembers();
             $entityManager->persist($association);
             $entityManager->flush();
 
@@ -67,6 +68,7 @@ class AssociationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $association->setTotalMembers();
             $entityManager->flush();
 
             return $this->redirectToRoute('association_index', [], Response::HTTP_SEE_OTHER);

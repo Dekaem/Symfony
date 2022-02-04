@@ -34,6 +34,11 @@ class Association
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $totalMembers;
+
     public function __toString() {
         return $this->name;
     }
@@ -78,5 +83,17 @@ class Association
     public function getUsers(): Collection
     {
         return $this->users;
+    }
+
+    public function setTotalMembers()
+    {
+        $this->totalMembers = $this->users->count();
+
+        return $this->totalMembers;
+    }
+
+    public function getTotalMembers()
+    {
+        return $this->totalMembers;
     }
 }

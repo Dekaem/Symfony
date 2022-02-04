@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier une association - {{ parent() }}{% endblock %}
+{% block title %}Modifier une table ronde - {{ parent() }}{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col mb-4">
-            <h1>Modifier l'association</h1>
+            <h1>Modifier la table ronde | {{ table_ronde.users|length }}</h1>
         </div>
     </div>
 </div>
@@ -15,7 +15,7 @@
         <div class="col">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    {{ include('dashboard/association/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+                    {{ include('dashboard/table_ronde/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
 <div class="container mt-3">
     <div class="row">
         <div class="col">
-            <a href="{{ path('association_index') }}"><i class="fal fa-long-arrow-left me-1"></i>Retour</a>
+            <a href="{{ path('table_ronde_index') }}"><i class="fal fa-long-arrow-left me-1"></i>Retour</a>
         </div>
     </div>
 </div> 

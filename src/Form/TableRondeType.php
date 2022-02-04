@@ -2,26 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Association;
+use App\Entity\TableRonde;
 use Symfony\Component\Form\AbstractType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AssociationType extends AbstractType
+class TableRondeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('description', CKEditorType::class)
+            ->add('round')
+            ->add('tableNumber')
+            ->add('users')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Association::class,
+            'data_class' => TableRonde::class,
         ]);
     }
 }

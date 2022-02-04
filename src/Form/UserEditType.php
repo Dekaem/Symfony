@@ -17,6 +17,7 @@ class UserEditType extends AbstractType
         ->add('association', null, ['label' => 'Association'])
         ->add('phone', null, ['label' => 'Téléphone'])
         ->add('email', null, ['label' => 'Email'])
+        ->add('tableRonde')
         ;
     }
 

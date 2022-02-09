@@ -5,6 +5,19 @@
 {% endblock %}
 
 {% block body %}
+
+	<div class="container py-5">
+		<div class="row">  
+			{% if app.user %}
+				<h3>
+					Vous êtes connecté en tant que {{ app.user.email }}
+				</h3>
+				<h6>
+					<a href="{{ path('app_logout') }}">Se déconnecter</a>
+				</h6
+			{% endif %}	
+		</div>
+	</div>
 	<div class="container py-5">
 		<div class="row">
 			<div class="col-12">

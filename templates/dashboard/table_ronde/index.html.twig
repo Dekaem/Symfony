@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des tables rondes -
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col d-flex justify-content-between mb-4">
+				<h1>Tables rondes - Liste des participants</h1>
+				<div class="d-flex align-items-center">
+					<a class="btn btn-primary" href="{{ path('table_ronde_new') }}">
+						<i class="fal fa-plus"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="card shadow-sm">
+					<div class="card-body">
+						<div class="table-responsive">
+							{% if table_rondes|length > 0 %}
+								<table class="table table-bordered m-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Tour</th>
+                                            <th>N° de table</th>
+											<th>Participants</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for table_ronde in table_rondes %}
+                                        <tr>
+                                            <td>{{ table_ronde.id }}</td>
+                                            <td>{{ table_ronde.round }}</td>
+                                            <td>{{ table_ronde.tableNumber }}</td>
+											<td>
+												<button class="btn btn-outline-success m-1" data-bs-toggle="modal" data-bs-target="#participantsModal-{{ table_ronde.id }}">
+													<i class="fal fa-search"></i>
+												</button>
+												<div class="modal fade" id="participantsModal-{{ table_ronde.id }}" tabindex="-1" aria-labelledby="participantsModal-{{ table_ronde.id }}-Label" aria-hidden="true">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="participantsModal-{{ table_ronde.id }}-Label">Liste des participants</h5>
+																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body">
+																{% for participant in table_ronde.users %}
+																	{{ participant }}<br>
+																{% endfor %}
+															</div>
+														</div>
+													</div>
+												</div>
+											</td>
+                                            <td>
+                                                <a class="btn btn-outline-success btn-sm mb-1" href="{{ path('table_ronde_show', {'id': table_ronde.id}) }}"><i class="fal fa-eye fa-fw"></i></a>
+                                                <a class="btn btn-outline-warning btn-sm mb-1" href="{{ path('table_ronde_edit', {'id': table_ronde.id}) }}"><i class="fal fa-pen fa-fw"></i></a>
+                                                <a class="btn p-0 mb-1">{{ include('dashboard/table_ronde/_delete_form.html.twig') }}</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+									</tbody>
+								</table>
+							{% else %}
+								<div class="alert alert-info text-center m-0" role="alert">
+									Pas d'enregistrement pour le moment.
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

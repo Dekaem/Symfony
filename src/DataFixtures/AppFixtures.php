@@ -7,18 +7,17 @@ use App\Entity\User;
 use App\Entity\Association;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements FixtureGroupInterface
 {
-    /**
-     * L'encodeur de mot de passe
-     * @var UserPasswordHasherInterface
-     */
+
     private $hasher;
 
-    public function __construct(UserPasswordHasherInterface $hasher)
-    {
+    public function __construct(
+        UserPasswordHasherInterface $hasher
+    ) {
         $this->hasher = $hasher;
     }
 
@@ -29,26 +28,24 @@ class AppFixtures extends Fixture
         // Création de l'utilisateur administrateur
         $user = new User;
 
-        $encodedPassword = $this->hasher->hashPassword(
-            $user,
-            "admini"
-        );
+        $hash = $this->hasher->hashPassword($user, "admini");
 
         $user->setRoles(["ROLE_ADMIN"]);
         $user->setEmail('admin@blue-com.fr');
-        $user->setPassword($encodedPassword);
-        $user->setFirstname($faker->firstName);
-        $user->setLastname($faker->lastName);
-        $user->setPhone($faker->e164PhoneNumber);
+        $user->setPassword($hash);
+        $user->setFirstname('Admin');
+        $user->setLastname('');
+        $user->setPhone('');
 
         $manager->persist($user);
         $manager->flush();
         
         // Création des associations
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 8; $i++) {
             $association = new Association();
             $association->setName($faker->company);
             $association->setDescription($faker->text);
+            $association->setTotalMembers();
 
             $manager->persist($association);
 
@@ -68,5 +65,10 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public static function getGroups(): array
+    {
+        return ['group1'];
     }
 }

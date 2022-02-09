@@ -11,7 +11,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppController extends AbstractController
 {
+    private $entityManager;
 
+    public function __construct(
+        EntityManagerInterface $entityManager
+
+    ) {
+        $this->entityManager = $entityManager;
+    }
+    
     /**
      * @Route("/", name="home", methods={"GET"})
      */

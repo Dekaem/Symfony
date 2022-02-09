@@ -29,10 +29,16 @@ class Association
      */
     private $description;
 
+        /**
+     * @ORM\Column(type="integer")
+     */
+    private $totalMembers;
+
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="association")
      */
     private $users;
+    
 
     public function __toString() {
         return $this->name;
@@ -71,6 +77,18 @@ class Association
         $this->description = $description;
 
         return $this;
+    }
+    
+    public function setTotalMembers()
+    {
+        $this->totalMembers = $this->users->count();
+
+        return $this->totalMembers;
+    }
+
+    public function getTotalMembers()
+    {
+        return $this->totalMembers;
     }
 
     /**

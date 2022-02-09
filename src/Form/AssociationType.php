@@ -13,7 +13,7 @@ class AssociationType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description', CKEditorType::class)
         ;
     }
 

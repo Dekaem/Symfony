@@ -108,7 +108,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/password/", name="user_new_password", methods={"GET", "POST"})
      */
-    public function newPassword(Request $request, User $user): Response
+    public function new_password(Request $request, User $user): Response
     {
 
         $form = $this->createForm(NewPasswordType::class, $user);

@@ -19,9 +19,11 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^32.0.0",
         "@popperjs/core": "^2.11.2",
         "autoprefixer": "^10.4.2",
         "bootstrap": "^5.1.3",
+        "elfinder": "^0.5.2",
         "postcss-loader": "^6.2.1"
     }
 }

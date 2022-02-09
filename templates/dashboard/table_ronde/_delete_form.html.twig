@@ -1,0 +1,4 @@
+<form class="d-inline" method="post" action="{{ path('table_ronde_delete', {'id': table_ronde.id}) }}" onsubmit="return confirm('Êtes-vous certain de vouloir supprimer cet élément ? Cette action est irréversible.');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ table_ronde.id) }}">
+    <button class="btn btn-outline-danger btn-sm"><i class="fal fa-trash fa-fw"></i></button>
+</form>

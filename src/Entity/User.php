@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"email"}, message="Il existe déjà un compte avec cet email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -55,18 +55,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Association::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Association::class)
      */
     private $association;
 
     /**
-     * @ORM\OneToMany(targetEntity=TableRonde::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=TableRonde::class, mappedBy="users", cascade={"persist"})
      */
-    private $tableronde;
+    private $tableRondes;
 
     public function __construct()
     {
-        $this->tableronde = new ArrayCollection();
+        $this->tableRondes = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->firstname . ' ' . $this->lastname;
     }
 
     public function getId(): ?int
@@ -91,7 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstname;
     }
 
-    public function setFirstname(?string $firstname): self
+    public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -103,7 +108,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastname;
     }
 
-    public function setLastname(?string $lastname): self
+    public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
 
@@ -115,7 +120,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->phone;
     }
 
-    public function setPhone(?string $phone): self
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
@@ -209,30 +214,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection|TableRonde[]
      */
-    public function getTableRonde(): Collection
+    public function getTableRondes(): Collection
     {
-        return $this->tableronde;
+        return $this->tableRondes;
     }
 
-    public function addTableRonde(TableRonde $tableronde): self
+    public function addTableRonde(TableRonde $tableRonde): self
     {
-        if (!$this->tableronde->contains($tableronde)) {
-            $this->tableronde[] = $tableronde;
-            $tableronde->setUser($this);
+        if (!$this->tableRondes->contains($tableRonde)) {
+            $this->tableRondes[] = $tableRonde;
+            $tableRonde->setUsers($this);
         }
 
         return $this;
     }
 
-    public function removeTableRonde(TableRonde $tableronde): self
+    public function removeTableRonde(TableRonde $tableRonde): self
     {
-        if ($this->tableronde->removeElement($tableronde)) {
+        if ($this->tableRondes->removeElement($tableRonde)) {
             // set the owning side to null (unless already changed)
-            if ($tableronde->getUser() === $this) {
-                $tableronde->setUser(null);
+            if ($tableRonde->getUsers() === $this) {
+                $tableRonde->setUsers(null);
             }
         }
 
         return $this;
     }
+
 }

@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\TableRondeRepository;
+use App\Entity\Table;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TableRondeRepository;
 
 /**
  * @ORM\Entity(repositoryClass=TableRondeRepository::class)
@@ -25,9 +26,8 @@ class TableRonde
     private $tableNumber;
 
     /**
-     * @ORM\Id
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tableRondes", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $users;
 

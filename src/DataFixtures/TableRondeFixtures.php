@@ -86,17 +86,19 @@ class TableRondeFixtures extends Fixture implements FixtureGroupInterface
 
 
         // On créer les tables rondes pour le 1er tour
-        for ($i = 0; $i < $nbTables; $i++) {
+        for ($i = 1; $i <= $nbTables; $i++) {
+            $table = new Table();
+            $manager->persist($table);
             for ($j = 0; $j < $nbMaxPerTable; $j++) {
                 $tableRonde = new TableRonde();
-                $tableRonde->setTableNumber($i + 1);
-                $tableRonde->setRound($roundActuel);
+                $tableRonde->setTableNumber($table);
+                $tableRonde->setRoundNumber($roundActuel);
 
                 $manager->persist($tableRonde);
             }
         }
 
-        $manager->flush();
+        $manager->flush(); 
 
         // Création des tableaux des tables rondes
         $i = 1;
@@ -108,12 +110,12 @@ class TableRondeFixtures extends Fixture implements FixtureGroupInterface
 
         $associations =  $this->associationRepository->findByMembers();
 
+        /*
         foreach ($associations as $association) {
             // On boucle sur les participants
             foreach ($association->getUsers() as $participant) {
                 var_dump('Utilisateur ' . $participant->getId());
                 foreach ($tableRondes as $tableRonde) {
-
                     var_dump('Table ' . $tableRonde->getTableNumber());
                     $numeroTable = $tableRonde->getTableNumber(); // On récupère le numéro de la table
                     $tableRonde = $this->tableRondeRepository->findByTableNumber($numeroTable); // On récupère la table
@@ -125,6 +127,37 @@ class TableRondeFixtures extends Fixture implements FixtureGroupInterface
 
                         $tableRonde->setUsers($participant);
                         ${'table' . $numeroTable}[] = $participant;
+                        ${'tableAssociation' . $numeroTable}[] = $participant->getAssociation();
+
+                        $manager->persist($tableRonde);
+
+                        var_dump('Utilisateur ajouté à la table ' . $tableRonde->getTableNumber());
+                        break;
+                    }
+
+                    $manager->flush();
+                }
+            }
+        }*/
+
+
+        foreach ($associations as $association) {
+            // On boucle sur les participants
+            foreach ($association->getUsers() as $participant) {
+                var_dump('Utilisateur ' . $participant->getId());
+                foreach ($tableRondes as $tableRonde) {
+                    var_dump('Table ' . $tableRonde->getTableNumber());
+                    $numeroTable = $tableRonde->getTableNumber(); // On récupère le numéro de la table
+                    $tableRonde = $this->tableRondeRepository->findByTableNumber($numeroTable); // On récupère la table
+
+                    if (count(${'table' . $numeroTable}) == $nbMaxPerTable) {
+                        var_dump('La table ' . $numeroTable . ' est pleine');
+                        continue;
+                    }
+                    if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && !in_array($participant->getAssociation(), ${'tableAssociation' . $numeroTable}) && $tableRonde->getUsers() === null) {
+
+                        $tableRonde->setUsers($participant);
+                        ${'table' . $numeroTable}['personne'.$j] = $participant;
                         ${'tableAssociation' . $numeroTable}[] = $participant->getAssociation();
 
                         $manager->persist($tableRonde);

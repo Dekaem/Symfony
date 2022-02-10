@@ -36,7 +36,13 @@ class DistributionController extends AbstractController
 
         $allParticipants = $this->userRepository->findAll();
         $participants = $this->userRepository->findByAssociationNotNull();
-        $participantsNoTable = $this->userRepository->findByTableNull();
+        $participantsNoTable = array();
+        foreach ($participants as $participant) {
+            if (count($participant->getTableRondes()) == 0) {
+                $participantsNoTable[] = $participant;
+            }
+        }
+
         $tableRondes = $this->tableRondeRepository->findAll();
 
         // Variables de configuration des tables

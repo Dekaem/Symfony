@@ -49,7 +49,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findByTableNull()
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.tableRonde IS NULL')
+            ->andWhere('u.tableRondes IS NULL')
             ->andWhere('u.association IS NOT NULL')
             ->orderBy('u.id', 'ASC')
             ->getQuery()

@@ -40,7 +40,9 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
 
         // On enlève l'affectation aux tables rondes
         foreach ($allParticipants as $participant) {
-            $participant->setTableRonde(null);
+            foreach ($participant->getTableRondes() as $tableRonde) {
+                $participant->removeTableRonde($tableRonde);
+            }
         }
 
         // On supprime les tables rondes
@@ -76,6 +78,7 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
 
         $associations =  $this->associationRepository->findByMembers();
 
+        // On boucle sur les associations
         foreach ($associations as $association) {
             // On boucle sur les participants
             foreach ($association->getUsers() as $participant) {
@@ -89,9 +92,9 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
                         var_dump('La table ' . $numeroTable . ' est pleine');
                         continue;
                     }
-                    if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && !in_array($participant->getAssociation(), ${'tableAssociation' . $numeroTable}) && $participant->getTableRonde() === null) {
+                    if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && !in_array($participant->getAssociation(), ${'tableAssociation' . $numeroTable})) {
 
-                        $participant->setTableRonde($table);
+                        $participant->addTableRonde($table);
                         ${'table' . $numeroTable}[] = $participant;
                         ${'tableAssociation' . $numeroTable}[] = $participant->getAssociation();
 
@@ -108,7 +111,13 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
 
         foreach ($associations as $association) {
             // On boucle sur les participants restants
-            $resteParticipants = $this->userRepository->findByTableNull(); // Tableau des participants restants
+            $resteParticipants = array(); // Tableau des participants restants
+            foreach ($participants as $participant) {
+                if (count($participant->getTableRondes()) == 0) {
+                    $resteParticipants[] = $participant;
+                }
+            }
+            
             foreach ($resteParticipants as $participant) {
                 var_dump('Utilisateur ' . $participant->getId());
                 foreach ($tableRondes as $tableRonde) {
@@ -120,9 +129,9 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
                         var_dump('La table ' . $numeroTable . ' est pleine');
                         continue;
                     }
-                    if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && $participant->getTableRonde() === null) {
+                    if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && count($participant->getTableRondes()) === 0) {
 
-                        $participant->setTableRonde($table);
+                        $participant->addTableRonde($table);
                         ${'table' . $numeroTable}[] = $participant;
 
                         // On pourra voir ici pour mettre un nombre maximum de membres de cette association sur une table (en fonction du pourcentage du total des membres)

@@ -30,7 +30,7 @@ class TableRonde
     private $tableNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="tableRonde", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="tableRondes")
      */
     private $users;
 
@@ -42,6 +42,7 @@ class TableRonde
     public function __construct()
     {
         $this->user = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,7 +86,6 @@ class TableRonde
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
-            $user->setTableRonde($this);
         }
 
         return $this;
@@ -93,12 +93,7 @@ class TableRonde
 
     public function removeUser(User $user): self
     {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getTableRonde() === $this) {
-                $user->setTableRonde(null);
-            }
-        }
+        $this->users->removeElement($user);
 
         return $this;
     }

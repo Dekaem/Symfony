@@ -41,16 +41,23 @@
 											<tr>
 												<td>{{ user.id }}</td>
 												<td>
-												{% if user.tableRonde is not null %}
-													{{ user.tableRonde.round}}
-												{% endif %}
+												{% for tableRonde in user.tableRondes %}
+													{{ tableRonde.round }}
+												{% endfor %}
 												</td>
 												<td>
-												{% if user.tableRonde is not null %}
+												{% for tableRonde in user.tableRondes %}
+													{% if user.tableRondes|length > 0 %}
+														{{ tableRonde.tableNumber }}
+													{% else %}
+														<span class="d-none">1000</span>
+													{% endif %}
+												{% endfor %}
+												{# {% if user.tableRonde is not null %}
 													{{ user.tableRonde.tableNumber}}
 												{% else %}
 													<span class="d-none">1000</span>
-												{% endif %}
+												{% endif %} #}
 												</td>
 												<td>{{ user.firstname }} {{ user.lastname }}</td>
 												<td>{{ user.association ? user.association.name : "" }}</td>

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -58,9 +60,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $association;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TableRonde::class, inversedBy="users", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity=TableRonde::class, mappedBy="users")
      */
-    private $tableRonde;
+    private $tableRondes;
+
+    public function __construct()
+    {
+        $this->tableRondes = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -204,14 +211,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getTableRonde(): ?TableRonde
+    /**
+     * @return Collection|TableRonde[]
+     */
+    public function getTableRondes(): Collection
     {
-        return $this->tableRonde;
+        return $this->tableRondes;
     }
 
-    public function setTableRonde(?TableRonde $tableRonde): self
+    public function addTableRonde(TableRonde $tableRonde): self
     {
-        $this->tableRonde = $tableRonde;
+        if (!$this->tableRondes->contains($tableRonde)) {
+            $this->tableRondes[] = $tableRonde;
+            $tableRonde->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTableRonde(TableRonde $tableRonde): self
+    {
+        if ($this->tableRondes->removeElement($tableRonde)) {
+            $tableRonde->removeUser($this);
+        }
 
         return $this;
     }

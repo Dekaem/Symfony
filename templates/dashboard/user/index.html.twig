@@ -28,9 +28,11 @@
 											<th>#</th>
 											<th>Prénom Nom</th>
 											<th>Association</th>
-											<th>Téléphone</th>
+											<th>Tour</th>
+											<th>Table</th>
+											{# <th>Téléphone</th> #}
 											{# <th>Role</th> #}
-											<th>E-mail</th>
+											{# <th>E-mail</th> #}
 											<th>Actions</th>
 										</tr>
 									</thead>
@@ -40,9 +42,23 @@
 												<td>{{ user.id }}</td>
 												<td>{{ user.firstname }} {{ user.lastname }}</td>
 												<td>{{ user.association ? user.association.name : "" }}</td>
-												<td>{{ user.phone }}</td>
+												<td>
+													{% for tableRonde in user.tableRondes %}
+														{{ tableRonde.round }}
+													{% endfor %}
+												</td>
+												<td>
+													{% for tableRonde in user.tableRondes %}
+														{% if user.tableRondes|length > 0 %}
+															{{ tableRonde.tableNumber }}
+														{% else %}
+															<span class="d-none">1000</span>
+														{% endif %}
+													{% endfor %}
+												</td>
+												{# <td>{{ user.phone }}</td> #}
 												{# <td>{{ user.roles ? user.roles|json_encode : '' }}</td> #}
-												<td>{{ user.email }}</td>
+												{# <td>{{ user.email }}</td> #}
 												<td>
                                                     <a class="btn btn-outline-success btn-sm mb-1" href="{{ path('user_show', {'id': user.id}) }}"><i class="fal fa-eye fa-fw"></i></a>
 													<a class="btn btn-outline-warning btn-sm mb-1" href="{{ path('user_edit', {'id': user.id}) }}"><i class="fal fa-pen fa-fw"></i></a>

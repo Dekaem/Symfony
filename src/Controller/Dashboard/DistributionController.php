@@ -12,6 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+/**
+ * @Route("/dashboard/distribution")
+ */
 class DistributionController extends AbstractController
 {
     private $manager;
@@ -29,14 +33,20 @@ class DistributionController extends AbstractController
     }
 
     /**
-     * @Route("/distribution", name="distribution")
+     * @Route("/", name="distribution")
      */
     public function index(): Response
     {
 
         $allParticipants = $this->userRepository->findAll();
         $participants = $this->userRepository->findByAssociationNotNull();
-        $participantsNoTable = $this->userRepository->findByTableNull();
+        $participantsNoTable = array();
+        foreach ($participants as $participant) {
+            if (count($participant->getTableRondes()) == 0) {
+                $participantsNoTable[] = $participant;
+            }
+        }
+
         $tableRondes = $this->tableRondeRepository->findAll();
 
         // Variables de configuration des tables

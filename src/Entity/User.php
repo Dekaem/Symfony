@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="Il existe déjà un compte avec cet email")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -29,12 +29,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $lastname;
 
@@ -60,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $association;
 
     /**
-     * @ORM\OneToMany(targetEntity=TableRonde::class, mappedBy="users", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity=TableRonde::class, mappedBy="users")
      */
     private $tableRondes;
 
@@ -223,7 +223,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->tableRondes->contains($tableRonde)) {
             $this->tableRondes[] = $tableRonde;
-            $tableRonde->setUsers($this);
+            $tableRonde->addUser($this);
         }
 
         return $this;
@@ -232,13 +232,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTableRonde(TableRonde $tableRonde): self
     {
         if ($this->tableRondes->removeElement($tableRonde)) {
-            // set the owning side to null (unless already changed)
-            if ($tableRonde->getUsers() === $this) {
-                $tableRonde->setUsers(null);
-            }
+            $tableRonde->removeUser($this);
         }
 
         return $this;
     }
-
 }

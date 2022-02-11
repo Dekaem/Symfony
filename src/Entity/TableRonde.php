@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Table;
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TableRondeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TableRondeRepository::class)
@@ -13,63 +14,87 @@ class TableRonde
 {
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity=Round::class, inversedBy="tableRondes", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
-    private $roundNumber;
+    private $id;
 
     /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity=Table::class, inversedBy="tableRondes", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer")
+     */
+    private $round;
+
+    /**
+     * @ORM\Column(type="integer")
      */
     private $tableNumber;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tableRondes", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="tableRondes")
      */
     private $users;
+
+    public function __toString()
+    {
+        return $this->round . ' - ' . $this->tableNumber;
+    }
+
+    public function __construct()
+    {
+        $this->user = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getRoundNumber(): ?Round
+    public function getRound(): ?int
     {
-        return $this->roundNumber;
+        return $this->round;
     }
 
-    public function setRoundNumber(?Round $roundNumber): self
+    public function setRound(int $round): self
     {
-        $this->roundNumber = $roundNumber;
+        $this->round = $round;
 
         return $this;
     }
 
-    public function getTableNumber(): ?Table
+    public function getTableNumber(): ?int
     {
         return $this->tableNumber;
     }
 
-    public function setTableNumber(?Table $tableNumber): self
+    public function setTableNumber(int $tableNumber): self
     {
         $this->tableNumber = $tableNumber;
 
         return $this;
     }
 
-    public function getUsers(): ?User
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    public function setUsers(?User $users): self
+    public function addUser(User $user): self
     {
-        $this->users = $users;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
 
         return $this;
     }
 
+    public function removeUser(User $user): self
+    {
+        $this->users->removeElement($user);
+
+        return $this;
+    }
 }

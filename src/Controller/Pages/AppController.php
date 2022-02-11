@@ -27,4 +27,12 @@ class AppController extends AbstractController
     {
         return $this->render('app/index.html.twig');
     }
+    
+    /**
+     * @Route("/elements", name="elements", methods={"GET"})
+     */
+    public function elements(): Response
+    {
+        return $this->render('app/elements.html.twig');
+    }
 }

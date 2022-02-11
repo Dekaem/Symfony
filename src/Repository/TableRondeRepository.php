@@ -39,23 +39,11 @@ class TableRondeRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByTableNumberAndUserNomber($value): ?TableRonde
+    public function findByTableNumber($value): ?TableRonde
     {
         return $this->createQueryBuilder('b')
             ->andWhere('b.tableNumber = :val')
             ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-
-    public function findByUserAndRound($user, $round): ?TableRonde
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.users = :user')
-            ->andWhere('b.round = :round')
-            ->setParameter('user', $user)
-            ->setParameter('round', $round)
             ->getQuery()
             ->getOneOrNullResult()
         ;

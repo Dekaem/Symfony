@@ -24,7 +24,7 @@
 					<div class="card-body">
 						<div class="table-responsive">
 							{% if table_rondes|length > 0 %}
-								<table class="table table-bordered m-0">
+								<table id="tr-table" class="table table-bordered m-0">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -41,7 +41,7 @@
                                             <td>{{ table_ronde.round }}</td>
                                             <td>{{ table_ronde.tableNumber }}</td>
 											<td>
-												<button class="btn btn-outline-success m-1" data-bs-toggle="modal" data-bs-target="#participantsModal-{{ table_ronde.id }}">
+												<button class="btn btn-outline-info btn-sm me-2" data-bs-toggle="modal" data-bs-target="#participantsModal-{{ table_ronde.id }}">
 													<i class="fal fa-search"></i>
 												</button>
 												<div class="modal fade" id="participantsModal-{{ table_ronde.id }}" tabindex="-1" aria-labelledby="participantsModal-{{ table_ronde.id }}-Label" aria-hidden="true">
@@ -61,9 +61,9 @@
 												</div>
 											</td>
                                             <td>
-                                                <a class="btn btn-outline-success btn-sm mb-1" href="{{ path('table_ronde_show', {'id': table_ronde.id}) }}"><i class="fal fa-eye fa-fw"></i></a>
-                                                <a class="btn btn-outline-warning btn-sm mb-1" href="{{ path('table_ronde_edit', {'id': table_ronde.id}) }}"><i class="fal fa-pen fa-fw"></i></a>
-                                                <a class="btn p-0 mb-1">{{ include('dashboard/table_ronde/_delete_form.html.twig') }}</a>
+                                                <a class="btn btn-outline-success btn-sm me-2" href="{{ path('table_ronde_show', {'id': table_ronde.id}) }}"><i class="fal fa-eye fa-fw"></i></a>
+                                                <a class="btn btn-outline-warning btn-sm me-2" href="{{ path('table_ronde_edit', {'id': table_ronde.id}) }}"><i class="fal fa-pen fa-fw"></i></a>
+                                                <a class="btn p-0">{{ include('dashboard/table_ronde/_delete_form.html.twig') }}</a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -80,4 +80,7 @@
 			</div>
 		</div>
 	</div>
+
+	{# import DataTable #}
+	<script src="{{ asset('js/index_tr.js') }}"></script>
 {% endblock %}

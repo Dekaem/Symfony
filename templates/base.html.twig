@@ -23,10 +23,13 @@
         {% endblock %}
     </head>
     <body>
-        {% if 'ROLE_USER' in app.user.roles or app.user is null %}
+        <!-- Affichage menu différent selon User -->
+        {% if app.user is null %}
             {% include 'blocks/layout/navigation.html.twig' %}
 		{% elseif 'ROLE_ADMIN' in app.user.roles %}
             {% include 'blocks/layout/navigation-admin.html.twig' %}
+		{% elseif 'ROLE_USER' in app.user.roles %}
+            {% include 'blocks/layout/navigation.html.twig' %}
 		{% endif %}	  
         {% include 'blocks/elements/flash-messages.html.twig' %}
         {% include 'blocks/layout/header.html.twig' %}

@@ -36,6 +36,7 @@
 		<div class="row">
 			{% for tableRonde in tablesRondes %}
 				<div class="card-table col-md-4 mb-4">
+
 					<ul class="list-group shadow-perso-light border-0">
 						<li class="list-group-item list-group-header">
 							<div class="round">
@@ -53,7 +54,7 @@
 						</li>
 						{% for participant in tableRonde.users %}
 							<li class="list-group-item">
-								{{ participant }}<br>
+								<b>{{ participant }}</b><br>
 								{{ participant.association }}
 							</li>
 						{% endfor %}

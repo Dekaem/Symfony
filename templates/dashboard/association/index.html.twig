@@ -24,7 +24,7 @@
 					<div class="card-body">
 						<div class="table-responsive">
 							{% if associations|length > 0 %}
-								<table class="table table-bordered m-0">
+								<table id="association-table" class="table table-bordered m-0">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -40,9 +40,9 @@
 												<td>{{ association.name }}</td>
 												<td>{{ association.totalMembers }}</td>
 												<td>
-                                                    <a class="btn btn-outline-success btn-sm mb-1" href="{{ path('association_show', {'id': association.id}) }}"><i class="fal fa-eye fa-fw"></i></a>
-                                                    <a class="btn btn-outline-warning btn-sm mb-1" href="{{ path('association_edit', {'id': association.id}) }}"><i class="fal fa-pen fa-fw"></i></a>
-                                                    <a class="btn p-0 mb-1">{{ include('dashboard/association/_delete_form.html.twig') }}</a>
+                                                    <a class="btn btn-outline-success btn-sm me-2" href="{{ path('association_show', {'id': association.id}) }}"><i class="fal fa-eye fa-fw"></i></a>
+                                                    <a class="btn btn-outline-warning btn-sm me-2" href="{{ path('association_edit', {'id': association.id}) }}"><i class="fal fa-pen fa-fw"></i></a>
+                                                    <a class="btn p-0">{{ include('dashboard/association/_delete_form.html.twig') }}</a>
 												</td>
 											</tr>
 										{% endfor %}
@@ -59,4 +59,8 @@
 			</div>
 		</div>
 	</div>
+
+	
+	{# import DataTable #}
+	<script src="{{ asset('js/index_association.js') }}"></script>
 {% endblock %}

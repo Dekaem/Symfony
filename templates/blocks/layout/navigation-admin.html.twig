@@ -58,18 +58,6 @@
 						Tables rondes
 					</a>
 				</li>
-				
-				<li class="nav-item">
-					<a
-						class="nav-link {{ app.request.get('_route') == "table_ronde_index" ? "active" : "" }}"
-						{% if app.request.get('_route') == "table_ronde_index" %}
-						aria-current="page"
-						{% endif %}
-						href="{{ path('table_ronde_index') }}"
-					>
-						Tables rondes
-					</a>
-				</li>
 				<li class="nav-item">
 					<a
 						class="nav-link {{ app.request.get('_route') == "distribution" ? "active" : "" }}"

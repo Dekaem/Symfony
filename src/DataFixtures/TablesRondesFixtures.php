@@ -28,6 +28,22 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager): void
     {
+
+        function in_array_once($value, $tab, $number) {
+            foreach ($tab as $key) {
+                $new_tab[] = $key->getName();
+            }
+            $tab_doublon = array_count_values($new_tab);
+            var_dump($new_tab);
+            var_dump($tab_doublon);
+            echo "Membre de l'association " . $value->getName() . " : " . $tab_doublon[$value->getName()];
+            if (in_array($value, $new_tab) && $tab_doublon[$value->getName()] == $number) {
+                return True;
+            } else {
+                return False;
+            }
+        }
+
         $allParticipants = $this->userRepository->findAll();
         // Récupération des participants => Trouver un moyen de les ranger par taille d'association
         $participants = $this->userRepository->findByAssociationNotNull();
@@ -76,23 +92,25 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
             $i++;
         }
 
-        $associations =  $this->associationRepository->findByMembers();
+        $associations = $this->associationRepository->findByMembers();
 
         // On boucle sur les associations
         foreach ($associations as $association) {
+            var_dump('Asso : ' . $association->getName());
+
             // On boucle sur les participants
             foreach ($association->getUsers() as $participant) {
                 var_dump('Utilisateur ' . $participant->getId());
-                foreach ($tableRondes as $tableRonde) {
 
+                foreach ($tableRondes as $tableRonde) {
                     var_dump('Table ' . $tableRonde->getTableNumber());
                     $numeroTable = $tableRonde->getTableNumber(); // On récupère le numéro de la table
                     $table = $this->tableRondeRepository->findByTableNumber($numeroTable); // On récupère la table
                     if (count(${'table' . $numeroTable}) == $nbMaxPerTable) {
-                        var_dump('La table ' . $numeroTable . ' est pleine');
+                        var_dump('La table ' . $numeroTable . ' est pleine -> ' . count(${'table' . $numeroTable}));
                         continue;
                     }
-                    if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && !in_array($participant->getAssociation(), ${'tableAssociation' . $numeroTable})) {
+                    if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && !in_array($participant->getAssociation(), ${'tableAssociation' . $numeroTable}) && count($participant->getTableRondes()) === 0) {
 
                         $participant->addTableRonde($table);
                         ${'table' . $numeroTable}[] = $participant;
@@ -100,16 +118,22 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
 
                         $manager->persist($participant);
 
-                        var_dump('Utilisateur ajouté à la table ' . $tableRonde->getTableNumber());
+                        var_dump('Utilisateur ' . $participant->getId() . ' ajouté à la table ' . $tableRonde->getTableNumber());
                         break;
                     }
 
-                    $manager->flush();
                 }
             }
         }
+        
+        $manager->flush();
 
+        echo count($tableAssociation1);
+        
+        // On boucle sur les associations
         foreach ($associations as $association) {
+            var_dump('Asso : ' . $association->getName());
+
             // On boucle sur les participants restants
             $resteParticipants = array(); // Tableau des participants restants
             foreach ($participants as $participant) {
@@ -120,16 +144,18 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
             
             foreach ($resteParticipants as $participant) {
                 var_dump('Utilisateur ' . $participant->getId());
-                foreach ($tableRondes as $tableRonde) {
 
+                foreach ($tableRondes as $tableRonde) {
                     var_dump('Table ' . $tableRonde->getTableNumber());
                     $numeroTable = $tableRonde->getTableNumber(); // On récupère le numéro de la table
                     $table = $this->tableRondeRepository->findByTableNumber($numeroTable); // On récupère la table
+                    
+                    // On récupère le pourcentage 
                     if (count(${'table' . $numeroTable}) == $nbMaxPerTable) {
-                        var_dump('La table ' . $numeroTable . ' est pleine');
+                        var_dump('La table ' . $numeroTable . ' est pleine -> ' . count(${'table' . $numeroTable}));
                         continue;
                     }
-                    if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && count($participant->getTableRondes()) === 0) {
+                    if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && in_array_once($participant->getAssociation(), ${'tableAssociation' . $numeroTable}, 1) && count($participant->getTableRondes()) === 0) {
 
                         $participant->addTableRonde($table);
                         ${'table' . $numeroTable}[] = $participant;
@@ -142,11 +168,13 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
                         var_dump('Utilisateur ajouté à la table ' . $tableRonde->getTableNumber());
                     }
 
-                    $manager->flush();
                 }
             }
         }
+        
+        $manager->flush();
     }
+
 
     public static function getGroups(): array
     {

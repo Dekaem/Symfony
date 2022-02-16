@@ -52,12 +52,13 @@ class DistributionController extends AbstractController
         // Variables de configuration des tables
         $nbMaxPerTable = 8;
         $nbTables = (int)(count($participants) / $nbMaxPerTable) + (count($participants) % $nbMaxPerTable > 0 ? 1 : 0);
-
+        $lastTable = $this->tableRondeRepository->findByTableNumber($nbTables);
+        
         return $this->render('dashboard/distribution/index.html.twig', [
             'tablesRondes' => $tableRondes,
             'nbTables' => $nbTables,
             'nbParticipants' => count($participants),
-            'lastTable' => count($participants) % $nbMaxPerTable,
+            'lastTable' => $nbMaxPerTable - count($lastTable->getUsers()),
             'participantsNoTable' => $participantsNoTable
         ]);
     }

@@ -38,9 +38,9 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
             var_dump($tab_doublon);
             echo "Membre de l'association " . $value->getName() . " : " . $tab_doublon[$value->getName()];
             if (in_array($value, $new_tab) && $tab_doublon[$value->getName()] == $number) {
-                return True;
+                return true;
             } else {
-                return False;
+                return false;
             }
         }
 
@@ -94,6 +94,8 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
 
         $associations = $this->associationRepository->findByMembers();
 
+        // ALGO PRINCIPAL
+
         // On boucle sur les associations
         foreach ($associations as $association) {
             var_dump('Asso : ' . $association->getName());
@@ -128,8 +130,8 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
         
         $manager->flush();
 
-        echo count($tableAssociation1);
-        
+        // GESTION DU RESTE 1 
+
         // On boucle sur les associations
         foreach ($associations as $association) {
             var_dump('Asso : ' . $association->getName());
@@ -155,13 +157,63 @@ class TablesRondesFixtures extends Fixture implements FixtureGroupInterface
                         var_dump('La table ' . $numeroTable . ' est pleine -> ' . count(${'table' . $numeroTable}));
                         continue;
                     }
+                    $test = in_array_once($participant->getAssociation(), ${'tableAssociation' . $numeroTable}, 1);
+                    var_dump($test);
                     if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && in_array_once($participant->getAssociation(), ${'tableAssociation' . $numeroTable}, 1) && count($participant->getTableRondes()) === 0) {
 
                         $participant->addTableRonde($table);
                         ${'table' . $numeroTable}[] = $participant;
 
                         // On pourra voir ici pour mettre un nombre maximum de membres de cette association sur une table (en fonction du pourcentage du total des membres)
-                        // ${'tableAssociation' . $numeroTable}[] = $participant->getAssociation();
+                        ${'tableAssociation' . $numeroTable}[] = $participant->getAssociation();
+
+                        $manager->persist($participant);
+
+                        var_dump('Utilisateur ajouté à la table ' . $tableRonde->getTableNumber());
+                    }
+
+                }
+            }
+        }
+        
+        $manager->flush();
+
+        // GESTION DU RESTE 2
+
+        // On boucle sur les associations
+        foreach ($associations as $association) {
+            var_dump('Asso : ' . $association->getName());
+
+            // On boucle sur les participants restants
+            $resteParticipants = array(); // Tableau des participants restants
+            foreach ($participants as $participant) {
+                if (count($participant->getTableRondes()) == 0) {
+                    $resteParticipants[] = $participant;
+                }
+            }
+            
+            foreach ($resteParticipants as $participant) {
+                var_dump('Utilisateur ' . $participant->getId());
+
+                foreach ($tableRondes as $tableRonde) {
+                    var_dump('Table ' . $tableRonde->getTableNumber());
+                    $numeroTable = $tableRonde->getTableNumber(); // On récupère le numéro de la table
+                    $table = $this->tableRondeRepository->findByTableNumber($numeroTable); // On récupère la table
+                    
+                    // On récupère le pourcentage 
+                    if (count(${'table' . $numeroTable}) == $nbMaxPerTable) {
+                        var_dump('La table ' . $numeroTable . ' est pleine -> ' . count(${'table' . $numeroTable}));
+                        continue;
+                    }
+                    $test = in_array_once($participant->getAssociation(), ${'tableAssociation' . $numeroTable}, 1);
+                    var_dump($test);
+                    if (!in_array($participant, ${'table' . $numeroTable}) && count(${'table' . $numeroTable}) < $nbMaxPerTable && in_array_once($participant->getAssociation(), ${'tableAssociation' . $numeroTable}, 2) && count($participant->getTableRondes()) === 0) {
+
+                        $participant->addTableRonde($table);
+                        ${'table' . $numeroTable}[] = $participant;
+
+                        // On pourra voir ici pour mettre un nombre maximum de membres de cette association sur une table (en fonction du pourcentage du total des membres)
+                        ${'tableAssociation' . $numeroTable}[] = $participant->getAssociation();
 
                         $manager->persist($participant);
 

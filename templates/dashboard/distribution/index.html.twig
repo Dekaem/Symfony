@@ -53,8 +53,8 @@
 						</li>
 						{% for participant in tableRonde.users %}
 							<li class="list-group-item">
-								{{ participant }}<br>
-								{{ participant.association }}
+								<div>{{ participant }}</div>
+								<h5>{{ participant.association }}</h5>
 							</li>
 						{% endfor %}
 					</ul>

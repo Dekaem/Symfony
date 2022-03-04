@@ -40,7 +40,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
         $manager->flush();
 
         // Création des associations
-        for ($i = 0; $i < 8; $i++) {
+        for ($i = 0; $i < 12; $i++) {
             $association = new Association();
             $association->setName($faker->company);
             $association->setDescription($faker->text);

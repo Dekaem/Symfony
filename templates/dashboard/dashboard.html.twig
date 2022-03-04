@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard -
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>Dashboard</h1>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col d-flex justify-content-between mb-4">
+				<h2>Associations - Liste ({{ associations|length }})</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				{% if associations|length > 0 %}
+					<table id="association-table" class="table table-bordered m-0">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Nom</th>
+								<th>Nombre de membres ({{ users|length }})</th>
+								<th>%</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for association in associations %}
+								<tr>
+									<td>{{ association.id }}</td>
+									<td>{{ association.name }}</td>
+									<td>{{ association.totalMembers }}</td>
+									<td>{{ (association.totalMembers * 100) / users|length }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<div class="alert alert-info text-center m-0" role="alert">
+						Pas d'enregistrement pour le moment.
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

@@ -24,12 +24,14 @@
 					<div class="card-body">
 						<div class="table-responsive">
 							{% if associations|length > 0 %}
-								<table class="table table-bordered m-0">
+								<table id="association-table" class="table table-bordered m-0">
 									<thead>
 										<tr>
 											<th>#</th>
 											<th>Nom</th>
-											<th>Nombre de membres</th>
+											<th>Nombre de membres ({{ allUsers|length }})</th>
+											<th>Vérif %</th>
+											<th>Membres par table</th>
 											<th>Actions</th>
 										</tr>
 									</thead>
@@ -38,7 +40,9 @@
 											<tr>
 												<td>{{ association.id }}</td>
 												<td>{{ association.name }}</td>
-												<td>{{ association.totalMembers }}</td>
+												<td>{{ association.users|length }}</td>
+												<td>{{ ((association.users|length * 100) / allUsers|length)|round }}</td>
+												<td>{{ (8 * ((association.users|length * 100) / allUsers|length) / 100)|round(0, 'ceil') }}</td>
 												<td>
                                                     <a class="btn btn-outline-success btn-sm" href="{{ path('association_show', {'id': association.id}) }}"><i class="fal fa-eye fa-fw"></i></a>
                                                     <a class="btn btn-outline-warning btn-sm" href="{{ path('association_edit', {'id': association.id}) }}"><i class="fal fa-pen fa-fw"></i></a>
@@ -59,4 +63,60 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		$(document).ready(function () {
+            $('#association-table').DataTable({
+				"order": [[ 2, "desc" ]],
+                "pageLength": 500,
+                "language": {
+                    "sEmptyTable": "Aucune donnée disponible dans le tableau",
+                    "sInfo": "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                    "sInfoEmpty": "Affichage de l'élément 0 à 0 sur 0 élément",
+                    "sInfoFiltered": "(filtré à partir de _MAX_ éléments au total)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ",",
+                    "sLengthMenu": "Afficher _MENU_ éléments",
+                    "sLoadingRecords": "Chargement...",
+                    "sProcessing": "Traitement...",
+                    "sSearch": "Rechercher :",
+                    "sZeroRecords": "Aucun élément correspondant trouvé",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sLast": "Dernier",
+                        "sNext": "Suivant",
+                        "sPrevious": "Précédent"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre décroissant"
+                    },
+                    "select": {
+                        "rows": {
+                            "_": "%d lignes sélectionnées",
+                            "0": "Aucune ligne sélectionnée",
+                            "1": "1 ligne sélectionnée"
+                        }
+                    },
+                    "searchPanes": {
+                        "clearMessage": "Effacer tout",
+                        "count": "{total}",
+                        "title": {
+                            _: 'Filtres actifs - %d',
+                            0: 'Aucun filtre actif',
+                            1: '1 filtre actif'
+                        },
+                        "collapse": {
+                            "0": "Volet de recherche",
+                            "_": "Volet de recherche (%d)"
+                        },
+                        "countFiltered": "{shown} ({total})",
+                        "emptyPanes": "Pas de volet de recherche",
+                        "loadMessage": "Chargement du volet de recherche...",
+                        "collapseMessage": "Réduire tout",
+                        "showMessage": "Montrer tout"
+                    }
+                }
+            });
+        });
+	</script>
 {% endblock %}

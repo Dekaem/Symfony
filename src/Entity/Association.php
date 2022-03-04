@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AssociationRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -33,11 +34,6 @@ class Association
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="association")
      */
     private $users;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $totalMembers;
 
     public function __toString() {
         return $this->name;
@@ -83,17 +79,5 @@ class Association
     public function getUsers(): Collection
     {
         return $this->users;
-    }
-
-    public function setTotalMembers()
-    {
-        $this->totalMembers = $this->users->count();
-
-        return $this->totalMembers;
-    }
-
-    public function getTotalMembers()
-    {
-        return $this->totalMembers;
     }
 }
